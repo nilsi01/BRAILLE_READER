@@ -1,0 +1,4 @@
+DEBUG:root:test
+WARNING:root:1
+ERROR:root:2
+CRITICAL:root:3

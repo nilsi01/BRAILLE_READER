@@ -4,6 +4,8 @@ from PIL import Image
 import pytesseract
 import os
 
+import Camerafeed
+
 # Replace 'COM5' with the port your Arduino is connected to
 arduino_port = 'COM5'
 baud_rate = 9600

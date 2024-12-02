@@ -9,6 +9,11 @@ arduino_port = 'COM5'
 baud_rate = 9600
 
 
+class BraileConverter:
+    def __init__ (self, character):
+        self.character = character
+        
+
 
 # Braile Patterns
 
