@@ -1,4 +1,14 @@
-DEBUG:root:test
-WARNING:root:1
-ERROR:root:2
-CRITICAL:root:3
+2024-12-02 15:46:14,609 [DEBUG] test
+2024-12-02 15:46:16,983 [INFO] Press 'q' to stop capturing and exit.
+2024-12-02 15:46:20,693 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_4tl4rjj0_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_4tl4rjj0', 'txt']
+2024-12-02 15:46:21,928 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_w5iqazfj_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_w5iqazfj', 'txt']
+2024-12-02 15:46:23,110 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_qto7yoq1_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_qto7yoq1', 'txt']
+2024-12-02 15:46:24,285 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_khs0i_4n_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_khs0i_4n', 'txt']
+2024-12-02 15:46:25,468 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_qq3w5wp6_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_qq3w5wp6', 'txt']
+2024-12-02 15:46:26,647 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_vdts6a58_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_vdts6a58', 'txt']
+2024-12-02 15:46:27,824 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_ouc8zws1_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_ouc8zws1', 'txt']
+2024-12-02 15:46:29,003 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_kdc7c8ab_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_kdc7c8ab', 'txt']
+2024-12-02 15:46:30,190 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_hsakhb8n_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_hsakhb8n', 'txt']
+2024-12-02 15:46:31,385 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_g0rgly1v_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_g0rgly1v', 'txt']
+2024-12-02 15:46:32,570 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_91040ozr_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_91040ozr', 'txt']
+2024-12-02 15:46:35,275 [DEBUG] ['C:\\Program Files\\Tesseract-OCR\\tesseract.exe', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_3zd9cutu_input.PNG', 'C:\\Users\\halon\\AppData\\Local\\Temp\\tess_3zd9cutu', 'txt']

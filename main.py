@@ -5,7 +5,6 @@ import serial
 import time
 import logging
 
-logging.basicConfig(level=logging.INFO, filename= "log.log", filemode = "w")
 
 
 def main():

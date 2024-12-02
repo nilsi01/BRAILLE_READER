@@ -1,8 +1,12 @@
 import os
 import cv2
 import time
+import log_config
 from pathlib import Path
 from threading import Thread, Lock
+import logging
+
+
 
 class CameraFeed:
     def __init__(self, save_directory="captured_frames", save_interval=3, max_frames=100):
@@ -21,10 +25,10 @@ class CameraFeed:
         cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # Change the port if needed
 
         if not cap.isOpened():
-            print("Error: Unable to access the webcam.")
+            logging.error("Error: Unable to access the webcam.")
             return
 
-        print("Press 'q' to stop capturing and exit.")
+        logging.info("Press 'q' to stop capturing and exit.")
         last_save_time = time.time()
 
         while self.running:
@@ -41,7 +45,7 @@ class CameraFeed:
             if current_time - last_save_time >= self.save_interval:
                 frame_filename = os.path.join(self.save_directory, f"frame_{int(current_time)}.jpg")
                 cv2.imwrite(frame_filename, frame)
-                logging.info(f"Automatically saved frame: {frame_filename}")
+                print(f"Automatically saved frame: {frame_filename}")
 
                 # Update the latest frame
                 with self.frame_lock:
