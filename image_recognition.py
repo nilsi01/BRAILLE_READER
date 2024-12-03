@@ -34,19 +34,21 @@ def process_image_and_send_signal(camera_feed):
 
         if latest_frame:
             try:
-                print(f"Processing latest frame: {latest_frame}")
+                logging.info(f"Processing latest frame: {latest_frame}")
+
                 image = Image.open(latest_frame).convert("L")
                 recognized_text = pytesseract.image_to_string(image)
-                print("OCR output:", recognized_text)
+
+                print("Text:", recognized_text)
 
                 # Send signals to Arduino
                 for letter in recognized_text:
                     if letter.isalpha():
-                        print(f"Sending '1' to Arduino for letter: {letter}")
+                        logging.info(f"Sending '1' to Arduino for letter: {letter}")
                         arduino.write(b'1')
                         time.sleep(0.5)
             except Exception as e:
-                print(f"Error processing frame {latest_frame}: {e}")
+                logging.error(f"Error processing frame {latest_frame}: {e}")
 
         time.sleep(1)  # Avoid excessive CPU usage
 

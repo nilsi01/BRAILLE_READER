@@ -1,5 +1,6 @@
 import os
 import cv2
+from PIL import ImageEnhance
 import time
 import log_config
 from pathlib import Path
@@ -9,20 +10,22 @@ import logging
 
 
 class CameraFeed:
-    def __init__(self, save_directory="captured_frames", save_interval=3, max_frames=100):
+    def __init__(self, save_directory="captured_frames", save_interval=3, max_frames=100, contrast = 0, greyscale = True):
         self.save_directory = save_directory
         self.save_interval = save_interval
         self.max_frames = max_frames
         self.frame_lock = Lock()
         self.latest_frame = None
         self.running = True
+        self.contrast = 1.5
+        self.greyscale = True
 
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
 
     def start_camera(self):
         # Initialize webcam
-        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW)  # Change the port if needed
+        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) # Change the port if needed 
 
         if not cap.isOpened():
             logging.error("Error: Unable to access the webcam.")
@@ -33,19 +36,23 @@ class CameraFeed:
 
         while self.running:
             ret, frame = cap.read()
+            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+
+
             if not ret:
-                print("Error: Unable to read frame from webcam.")
+                logging.error("Error: Unable to read frame from webcam.")
                 break
 
             # Display the frame
-            cv2.imshow("Webcam Feed", frame)
+            cv2.imshow("Webcam Feed", cap_gray_contrast)
 
             # Save frame at specified intervals
             current_time = time.time()
             if current_time - last_save_time >= self.save_interval:
                 frame_filename = os.path.join(self.save_directory, f"frame_{int(current_time)}.jpg")
                 cv2.imwrite(frame_filename, frame)
-                print(f"Automatically saved frame: {frame_filename}")
+                logging.info(f"Automatically saved frame: {frame_filename}")
 
                 # Update the latest frame
                 with self.frame_lock:
@@ -70,6 +77,6 @@ class CameraFeed:
             for file in files[:len(files) - self.max_frames]:
                 try:
                     file.unlink()
-                    print(f"Deleted old file: {file}")
+                    logging.info(f"Deleted old file: {file}")
                 except Exception as e:
-                    print(f"Error deleting file {file}: {e}")
+                    logging.error(f"Error deleting file {file}: {e}")
