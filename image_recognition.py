@@ -1,10 +1,12 @@
 import os
 import serial
 import time
+import logging
 from PIL import Image
 import pytesseract
 from threading import Thread
 from camerafeed import CameraFeed
+
 
 # Replace 'COM5' with the port your Arduino is connected to
 arduino_port = 'COM5'
@@ -14,12 +16,12 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 
 # Initialize Arduino
 try:
-    print("Initializing serial connection...")
+    logging.info("Initializing serial connection...")
     arduino = serial.Serial(arduino_port, baud_rate)
-    print("Serial connection established.")
+    logging.info("Serial connection established.")
     time.sleep(2)
 except Exception as e:
-    print(f"Error initializing serial connection: {e}")
+    logging.error(f"Error initializing serial connection: {e}")
     exit()
 
 
