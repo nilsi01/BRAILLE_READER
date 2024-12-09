@@ -1,67 +1,54 @@
-import os
-import cv2
-from PIL import ImageEnhance
-import time
-import log_config
-from pathlib import Path
-from threading import Thread, Lock
-import logging
-
-
 
 class CameraFeed:
-    def __init__(self, save_directory="captured_frames", save_interval=3, max_frames=100, contrast = 0, greyscale = True):
+    def __init__(self, save_directory="captured_frames", max_frames=100, contrast=0, greyscale=True, serial_port="COM3", baud_rate=9600):
         self.save_directory = save_directory
-        self.save_interval = save_interval
         self.max_frames = max_frames
-        self.frame_lock = Lock()
-        self.latest_frame = None
-        self.running = True
         self.contrast = 1.5
         self.greyscale = True
+        self.running = True
+
+        # Set up serial communication
+        self.serial_port = serial.Serial(serial_port, baud_rate, timeout=1)
 
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
 
     def start_camera(self):
         # Initialize webcam
-        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Change the port if needed 
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW)  # Change the port if needed
 
         if not cap.isOpened():
             logging.error("Error: Unable to access the webcam.")
             return
 
         logging.info("Press 'q' to stop capturing and exit.")
-        last_save_time = time.time()
-
+        
         while self.running:
+            # Read a frame from the webcam
             ret, frame = cap.read()
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-
-
             if not ret:
                 logging.error("Error: Unable to read frame from webcam.")
                 break
 
+            # Convert frame to grayscale if enabled
+            if self.greyscale:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
             # Display the frame
-            cv2.imshow("Webcam Feed", gray)
+            cv2.imshow("Webcam Feed", frame)
 
-            # Save frame at specified intervals
-            current_time = time.time()
-            if current_time - last_save_time >= self.save_interval:
-                frame_filename = os.path.join(self.save_directory, f"frame_{int(current_time)}.jpg")
-                cv2.imwrite(frame_filename, frame)
-                logging.info(f"Automatically saved frame: {frame_filename}")
+            # Check serial input for "Pressed"
+            if self.serial_port.in_waiting > 0:
+                line = self.serial_port.readline().decode('utf-8').strip()
+                if line == "Pressed":
+                    # Save the frame when the button is pressed
+                    timestamp = int(time.time())
+                    frame_filename = os.path.join(self.save_directory, f"frame_{timestamp}.jpg")
+                    cv2.imwrite(frame_filename, frame)
+                    logging.info(f"Saved frame: {frame_filename}")
 
-                # Update the latest frame
-                with self.frame_lock:
-                    self.latest_frame = frame_filename
-
-                last_save_time = current_time
-
-                # Clean up old files
-                self.cleanup_old_files()
+                    # Clean up old files
+                    self.cleanup_old_files()
 
             # Exit loop if 'q' is pressed
             if cv2.waitKey(1) & 0xFF == ord('q'):
