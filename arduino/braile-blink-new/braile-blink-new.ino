@@ -6,9 +6,9 @@ const int led4 = 5;  // Dot 4
 const int led5 = 6;  // Dot 5
 const int led6 = 7;  // Dot 6
 
-// Braille representations for letters (lowercase)
-// Each entry in the array represents a Braille character (1 = ON, 0 = OFF)
-const byte braillePatterns[26][6] = {
+// Braille representations for characters (1 = ON, 0 = OFF)
+const byte braillePatterns[36][6] = {
+    // Letters A-Z
     {1, 0, 0, 0, 0, 0},  // A
     {1, 1, 0, 0, 0, 0},  // B
     {1, 0, 0, 1, 0, 0},  // C
@@ -34,21 +34,33 @@ const byte braillePatterns[26][6] = {
     {0, 1, 0, 1, 1, 1},  // W
     {1, 0, 1, 1, 0, 1},  // X
     {1, 0, 1, 1, 1, 1},  // Y
-    {1, 0, 1, 0, 1, 1}   // Z
+    {1, 0, 1, 0, 1, 1},  // Z
+
+    // Numbers 1-9 (represented by A-J)
+    {1, 0, 0, 0, 0, 0},  // 1
+    {1, 1, 0, 0, 0, 0},  // 2
+    {1, 0, 0, 1, 0, 0},  // 3
+    {1, 0, 0, 1, 1, 0},  // 4
+    {1, 0, 0, 0, 1, 0},  // 5
+    {1, 1, 0, 1, 0, 0},  // 6
+    {1, 1, 0, 1, 1, 0},  // 7
+    {1, 1, 0, 0, 1, 0},  // 8
+    {0, 1, 0, 1, 0, 0},  // 9
+    {0, 1, 0, 1, 1, 0},  // 0 (this is letter J in Braille, but in numeric context it represents 0)
 };
 
-// Function to display a Braille character based on the letter index (0 = 'A', 25 = 'Z')
-void displayBrailleCharacter(int letterIndex) {
+// Function to display a Braille character based on the letter index (0 = 'A', 25 = 'Z', 26-35 = '0'-'9')
+void displayBrailleCharacter(int charIndex) {
     // Ensure the index is within range
-    if (letterIndex < 0 || letterIndex > 25) return;
+    if (charIndex < 0 || charIndex > 35) return;
 
     // Set each LED according to the Braille pattern
-    digitalWrite(led1, braillePatterns[letterIndex][0]);
-    digitalWrite(led2, braillePatterns[letterIndex][1]);
-    digitalWrite(led3, braillePatterns[letterIndex][2]);
-    digitalWrite(led4, braillePatterns[letterIndex][3]);
-    digitalWrite(led5, braillePatterns[letterIndex][4]);
-    digitalWrite(led6, braillePatterns[letterIndex][5]);
+    digitalWrite(led1, braillePatterns[charIndex][0]);
+    digitalWrite(led2, braillePatterns[charIndex][1]);
+    digitalWrite(led3, braillePatterns[charIndex][2]);
+    digitalWrite(led4, braillePatterns[charIndex][3]);
+    digitalWrite(led5, braillePatterns[charIndex][4]);
+    digitalWrite(led6, braillePatterns[charIndex][5]);
 }
 
 void setup() {
@@ -62,7 +74,7 @@ void setup() {
 
     // Begin serial communication
     Serial.begin(9600);
-    Serial.println("Enter a letter to display its Braille representation:");
+    Serial.println("Enter a letter or number to display its Braille representation:");
 }
 
 void loop() {
@@ -73,14 +85,16 @@ void loop() {
         // Convert to uppercase if needed
         inputChar = toupper(inputChar);
 
-        // Check if it's a valid letter (A-Z)
-        if (inputChar >= 'A' && inputChar <= 'Z') {
+        // Check if it's a valid letter or number (A-Z, 0-9)
+        if ((inputChar >= 'A' && inputChar <= 'Z')) {
             int letterIndex = inputChar - 'A';  // Convert letter to index (A=0, B=1, ..., Z=25)
             displayBrailleCharacter(letterIndex); // Display the Braille pattern for the letter
             Serial.print("Displaying Braille for: ");
             Serial.println(inputChar);
-        } else {
-            Serial.println("Please enter a letter (A-Z).");
-        }
-    }
+        } else if (inputChar >= '0' && inputChar <= '9') {
+            int numberIndex = inputChar - '0' + 26;  // Convert number to index (0=26, 1=27, ..., 9=35)
+            displayBrailleCharacter(numberIndex); // Display the Braille pattern for the number
+            Serial.print("Displaying Braille for: ");
+            Serial.println(inputChar);
+    }
 }
