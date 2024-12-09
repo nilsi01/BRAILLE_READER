@@ -1,11 +1,11 @@
 import os
-import serial
 import time
 import logging
 from PIL import Image
 import pytesseract
 from threading import Thread
 from camerafeed import CameraFeed
+import serial
 
 
 # Replace 'COM5' with the port your Arduino is connected to
@@ -17,7 +17,7 @@ pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tessera
 # Initialize Arduino
 try:
     logging.info("Initializing serial connection...")
-    arduino = serial.Serial(arduino_port, baud_rate)
+    arduino = serial.Serial(arduino_port, baud_rate, timeout=1)
     logging.info("Serial connection established.")
     time.sleep(2)
 except Exception as e:
@@ -25,7 +25,17 @@ except Exception as e:
     exit()
 
 
-
+def send_to_arduino(letter):
+    """
+    Send a letter to the Arduino via serial communication.
+    :param letter: Single alphabetic character to send.
+    """
+    try:
+            arduino.write(letter.upper().encode('utf-8'))
+            logging.info(f"Sent letter '{letter}' to Arduino.")
+            time.sleep(0.5)  # Delay to allow Arduino to process
+    except Exception as e:
+            logging.error(f"Error sending letter '{letter}' to Arduino: {e}")
 
 
 def process_image_and_send_signal(camera_feed):
@@ -39,19 +49,17 @@ def process_image_and_send_signal(camera_feed):
             try:
                 logging.info(f"Processing latest frame: {latest_frame}")
 
+                # Open the image, convert to grayscale, and perform OCR
                 image = Image.open(latest_frame).convert("L")
                 recognized_text = pytesseract.image_to_string(image)
 
-                print("Text:", recognized_text)
+                print("Recognized Text:", recognized_text)
 
-                # Send signals to Arduino
+                # Send each recognized alphabetic character to Arduino
                 for letter in recognized_text:
-                    if letter.isalpha():
-                        logging.info(f"Sending '1' to Arduino for letter: {letter}")
-                        arduino.write(b'1')
-                        time.sleep(0.5)
+                    send_to_arduino(letter)
+
             except Exception as e:
                 logging.error(f"Error processing frame {latest_frame}: {e}")
 
         time.sleep(1)  # Avoid excessive CPU usage
-
