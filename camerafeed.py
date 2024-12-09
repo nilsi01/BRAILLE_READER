@@ -25,7 +25,7 @@ class CameraFeed:
 
     def start_camera(self):
         # Initialize webcam
-        cap = cv2.VideoCapture(1, cv2.CAP_DSHOW) # Change the port if needed 
+        cap = cv2.VideoCapture(0, cv2.CAP_DSHOW) # Change the port if needed 
 
         if not cap.isOpened():
             logging.error("Error: Unable to access the webcam.")
@@ -45,7 +45,7 @@ class CameraFeed:
                 break
 
             # Display the frame
-            cv2.imshow("Webcam Feed", cap_gray_contrast)
+            cv2.imshow("Webcam Feed", gray)
 
             # Save frame at specified intervals
             current_time = time.time()

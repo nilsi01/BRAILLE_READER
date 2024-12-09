@@ -25,6 +25,9 @@ except Exception as e:
     exit()
 
 
+
+
+
 def process_image_and_send_signal(camera_feed):
     """ Continuously process the latest frame and send signals to Arduino. """
     while camera_feed.running:
