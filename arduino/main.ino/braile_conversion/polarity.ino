@@ -4,11 +4,11 @@
 int motorAPin_A = 8;  // Connected to A-1A terminal
 int motorAPin_B = 9;  // Connected to A-1B terminal
 
-void setup() {
-  // Set the control pins as OUTPUT
-  pinMode(motorAPin_A, OUTPUT);
-  pinMode(motorAPin_B, OUTPUT);
-}
+// void setup() {
+//   // Set the control pins as OUTPUT
+//   pinMode(motorAPin_A, OUTPUT);
+//   pinMode(motorAPin_B, OUTPUT);
+// }
 
 void polarity_on() {
   // Activate electromagnet in one polarity

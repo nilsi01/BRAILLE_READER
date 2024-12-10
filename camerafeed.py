@@ -1,14 +1,25 @@
+import os
+import cv2
+from PIL import ImageEnhance
+import time
+import log_config
+from pathlib import Path
+from threading import Thread, Lock
+import logging
+import serial
+
+
 
 class CameraFeed:
-    def __init__(self, save_directory="captured_frames", max_frames=100, contrast=0, greyscale=True, serial_port="COM3", baud_rate=9600):
+    def __init__(self, save_directory="captured_frames", max_frames=100, contrast=0, greyscale=True, serial_port="COM5", baud_rate=9600):
         self.save_directory = save_directory
         self.max_frames = max_frames
         self.contrast = 1.5
         self.greyscale = True
         self.running = True
 
-        # Set up serial communication
-        self.serial_port = serial.Serial(serial_port, baud_rate, timeout=1)
+        # # Set up serial communication
+        # self.serial_port = serial.Serial(serial_port, baud_rate, timeout=1)
 
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)

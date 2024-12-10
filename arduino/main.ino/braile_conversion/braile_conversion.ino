@@ -1,4 +1,5 @@
-#include "polarity.h"
+// #include "polarity.h"
+
 
 
 
@@ -9,6 +10,12 @@ const int braile3 = 4;  // Dot 3
 const int braile4 = 5;  // Dot 4
 const int braile5 = 6;  // Dot 5
 const int braile6 = 7;  // Dot 6
+
+void setup() {
+  // put your setup code here, to run once:
+  Serial.begin(9600);
+}
+
 
 // Braille representations for characters (1 = ON, 0 = OFF)
 const byte braillePatterns[36][6] = {
@@ -66,8 +73,8 @@ void displayBrailleCharacter(int charIndex) {
   digitalWrite(braile5, braillePatterns[charIndex][4]);
   digitalWrite(braile6, braillePatterns[charIndex][5]);
 
-  polarity_on();
-  polarity_off();
+  // polarity_on();
+  // polarity_off();
 }
 
 void loop() {
