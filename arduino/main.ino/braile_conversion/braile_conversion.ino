@@ -1,10 +1,14 @@
+#include "polarity.h"
+
+
+
 // Define pins for each LED
-const int led1 = 2;  // Dot 1
-const int led2 = 3;  // Dot 2
-const int led3 = 4;  // Dot 3
-const int led4 = 5;  // Dot 4
-const int led5 = 6;  // Dot 5
-const int led6 = 7;  // Dot 6
+const int braile1 = 2;  // Dot 1
+const int braile2 = 3;  // Dot 2
+const int braile3 = 4;  // Dot 3
+const int braile4 = 5;  // Dot 4
+const int braile5 = 6;  // Dot 5
+const int braile6 = 7;  // Dot 6
 
 // Braille representations for characters (1 = ON, 0 = OFF)
 const byte braillePatterns[36][6] = {
@@ -54,26 +58,16 @@ void displayBrailleCharacter(int charIndex) {
   // Ensure the index is within range
   if (charIndex < 0 || charIndex > 35) return;
 
-  // Set each LED according to the Braille pattern
-  digitalWrite(led1, braillePatterns[charIndex][0]);
-  digitalWrite(led2, braillePatterns[charIndex][1]);
-  digitalWrite(led3, braillePatterns[charIndex][2]);
-  digitalWrite(led4, braillePatterns[charIndex][3]);
-  digitalWrite(led5, braillePatterns[charIndex][4]);
-  digitalWrite(led6, braillePatterns[charIndex][5]);
-}
+  // Set each LED according to the Braille pattern [charindex[X]] defines the position of a symbol within one of the arrays, charsymbol 0 for example is always the first
+  digitalWrite(braile1, braillePatterns[charIndex][0]);
+  digitalWrite(braile2, braillePatterns[charIndex][1]);
+  digitalWrite(braile3, braillePatterns[charIndex][2]);
+  digitalWrite(braile4, braillePatterns[charIndex][3]);
+  digitalWrite(braile5, braillePatterns[charIndex][4]);
+  digitalWrite(braile6, braillePatterns[charIndex][5]);
 
-void setup() {
-  // Initialize each LED pin as an OUTPUT
-  pinMode(led1, OUTPUT);
-  pinMode(led2, OUTPUT);
-  pinMode(led3, OUTPUT);
-  pinMode(led4, OUTPUT);
-  pinMode(led5, OUTPUT);
-  pinMode(led6, OUTPUT);
-
-  // Begin serial communication
-  Serial.begin(9600);
+  polarity_on();
+  polarity_off();
 }
 
 void loop() {
